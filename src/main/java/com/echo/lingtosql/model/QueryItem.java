@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 public class QueryItem<T> {
 
     private QueryItem<T> next;
+    private QueryItem<T> inner;
     private EnumOperator queryOperator;
     private QueryFunction<T, Object> function;
     private EnumOperator operator;

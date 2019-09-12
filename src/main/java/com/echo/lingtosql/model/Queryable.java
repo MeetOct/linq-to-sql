@@ -19,12 +19,12 @@ public class Queryable<T> {
         return new Queryable();
     }
 
-    public Queryable<T> Where(QueryFunction<T,Object> function, EnumOperator operator, Object value) throws Exception {
+    public Queryable<T> where(QueryFunction<T,Object> function, EnumOperator operator, Object value) throws Exception {
         setCurrentQueryItem(function,EnumOperator.and,operator,value);
         return this;
     }
 
-    public Queryable<T> Or(QueryFunction<T,Object> function, EnumOperator operator, Object value){
+    public Queryable<T> or(QueryFunction<T,Object> function, EnumOperator operator, Object value){
         setCurrentQueryItem(function,EnumOperator.or,operator,value);
         return this;
     }

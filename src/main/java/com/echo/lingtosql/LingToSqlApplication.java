@@ -2,6 +2,8 @@ package com.echo.lingtosql;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class LingToSqlApplication {
@@ -9,5 +11,4 @@ public class LingToSqlApplication {
     public static void main(String[] args) {
         SpringApplication.run(LingToSqlApplication.class, args);
     }
-
 }
