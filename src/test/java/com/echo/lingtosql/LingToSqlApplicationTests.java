@@ -17,8 +17,9 @@ public class LingToSqlApplicationTests {
 
     @Test
     public void sqlQuery() throws Exception {
-        Queryable<ProductModel> query=new Queryable<>();
-        query.where(ProductModel::getId, EnumOperator.eq,1).or(ProductModel::getProductName,EnumOperator.like,"test");
-        System.out.println(query.translateToSql(ProductModel.class));
+        Queryable.<ProductModel>builder()
+                .where(ProductModel::getId, EnumOperator.eq,1)
+                .or(ProductModel::getProductName,EnumOperator.like,"test")
+                .toList(ProductModel.class);
     }
 }

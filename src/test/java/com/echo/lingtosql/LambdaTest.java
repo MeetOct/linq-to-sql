@@ -27,9 +27,12 @@ public class LambdaTest {
 
     @Before
     public void generateLambdaList(){
-        list=Arrays.asList(1,2,4,5,6,7);
+        list=Arrays.asList(0,1,2,4,5,6);
     }
 
+    /**
+     * remark:println 输出顺序不同 代表函数执行的先后顺序不同，同时begin break end的输出顺序揭示了Stream内部函数的开始执行点
+     */
     @Test
     public void intermediateAndTerminalOperations(){
         System.out.println("begin");
@@ -39,18 +42,22 @@ public class LambdaTest {
                     return true;
                 })
                 .map(m->{
-                    System.out.println("filter2");
+                    System.out.println("map1");
                     return m+1;
+                })
+                .filter(m->{
+                    System.out.println("filter2");
+                    return true;
                 })
                 .sorted(Comparator.comparing(s->{
                     System.out.println("comparing1");
                     return s;
                 }))
-                .skip(3)
-                .filter(f->{
-                    System.out.println("filter3");
-                    return true;
-                });
+                .skip(3);
+        stream=stream.filter(f->{
+            System.out.println("filter3");
+            return true;
+        });
         System.out.println("break");
         stream.collect(Collectors.toList());
         System.out.println("end");
@@ -58,19 +65,15 @@ public class LambdaTest {
 
     @Test
     public void operationOrderTest(){
-        list.stream().filter(f->{
-            System.out.println("filter1");
+        Stream stream= list.stream().filter(f->{
+            System.out.println("filter2");
             return true;
         }).filter(f->{
             System.out.println("filter2");
             return true;
-        }).map(m->{
-            System.out.println("map1");
-            return m+1;
-        }).sorted(Comparator.comparing(f-> f)).filter(f->{
-            System.out.println("filter3");
-            return true;
-        }).collect(Collectors.toList());
+        });
+        System.out.println("break");
+        stream.collect(Collectors.toList());
     }
 
     @Test

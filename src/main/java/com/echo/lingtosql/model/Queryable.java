@@ -1,9 +1,13 @@
 package com.echo.lingtosql.model;
 
 import com.echo.lingtosql.model.annotation.Table;
+import org.hibernate.validator.constraints.EAN;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * @ClassName Queryable
@@ -15,8 +19,8 @@ public class Queryable<T> {
 
     private QueryItem current;
 
-    public static Queryable builder(){
-        return new Queryable();
+    public static<T> Queryable<T> builder(){
+        return new Queryable<>();
     }
 
     public Queryable<T> where(QueryFunction<T,Object> function, EnumOperator operator, Object value) throws Exception {
@@ -27,6 +31,11 @@ public class Queryable<T> {
     public Queryable<T> or(QueryFunction<T,Object> function, EnumOperator operator, Object value){
         setCurrentQueryItem(function,EnumOperator.or,operator,value);
         return this;
+    }
+
+    public List<T> toList(Class<?> entityClass) throws Exception {
+        System.out.println(this.translateToSql(entityClass));
+        return Arrays.asList();
     }
 
     private void setCurrentQueryItem(QueryFunction<T,Object> function, EnumOperator queryOperator, EnumOperator operator, Object value) {
@@ -61,7 +70,7 @@ public class Queryable<T> {
                     fieldName=sqlField.name();
                 }
             }
-            builder.append(current.getQueryOperator().operator+" ("+fieldName+" "+current.getOperator().operator+" "+current.getQueryValue()+") ");
+            builder.append(current.getQueryOperator().operator+" ("+fieldName+" "+current.getOperator().operator+" "+current.getQueryValueString()+") ");
             current=current.getNext();
         }
         return "select * from "+tableName+" where 1=1 "+builder.toString();
